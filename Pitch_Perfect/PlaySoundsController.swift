@@ -16,6 +16,9 @@ class PlaySoundsController: UIViewController {
     var audioEngine:AVAudioEngine!
     var audioPlayerNode: AVAudioPlayerNode!
     var stopTimer: Timer!
+    
+    var tempFloat2: CGFloat = 0
+    var tempFloat3: CGFloat = 0.7
 
     enum ButtonType: Int {
         case slow = 0, echo, fast, chipmunk, darthvader, reverb
@@ -28,7 +31,6 @@ class PlaySoundsController: UIViewController {
         button.imageView?.contentMode = .scaleToFill
         button.backgroundColor = UIColor.red
         button.tag = ButtonType.slow.rawValue
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = button.bounds.size.width / 2
         return button
     }()
@@ -41,7 +43,7 @@ class PlaySoundsController: UIViewController {
         button.backgroundColor = UIColor.green
         button.layer.cornerRadius = button.bounds.size.width / 2
         button.tag = ButtonType.echo.rawValue
-        button.translatesAutoresizingMaskIntoConstraints = false
+
         return button
     }()
     
@@ -53,7 +55,6 @@ class PlaySoundsController: UIViewController {
         button.backgroundColor = UIColor.yellow
         button.layer.cornerRadius = button.bounds.size.width / 2
         button.tag = ButtonType.fast.rawValue
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
 
@@ -65,7 +66,6 @@ class PlaySoundsController: UIViewController {
         button.backgroundColor = UIColor.teal
         button.layer.cornerRadius = button.bounds.size.width / 2
         button.tag = ButtonType.chipmunk.rawValue
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -78,7 +78,6 @@ class PlaySoundsController: UIViewController {
         button.backgroundColor = UIColor.orange
         button.layer.cornerRadius = button.bounds.size.width / 2
         button.tag = ButtonType.darthvader.rawValue
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -90,7 +89,6 @@ class PlaySoundsController: UIViewController {
         button.backgroundColor = UIColor.gray
         button.layer.cornerRadius = button.bounds.size.width / 2
         button.tag = ButtonType.reverb.rawValue
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -116,9 +114,19 @@ class PlaySoundsController: UIViewController {
         return button
     }()
     
+    let titleLabel: UILabel = {
+       let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Select a sound filter"
+        label.textColor = UIColor.lightGray
+        return label
+    }()
+    
+    
     let horizontalRowTop: UIStackView = {
        let stack = UIStackView()
         stack.axis = .horizontal
+        stack.distribution = .equalCentering
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
@@ -133,6 +141,7 @@ class PlaySoundsController: UIViewController {
     let horizontalRowBtm: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
+        stack.distribution = .equalSpacing
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
@@ -149,24 +158,16 @@ class PlaySoundsController: UIViewController {
         super.viewWillAppear(animated)
         DispatchQueue.main.async {
             [self.slowButton, self.echoButton, self.fastButton, self.reverbButton, self.chipmunkButton, self.darthvaderButton, self.stopButton].forEach{
-                $0.transform = self.view.transform.scaledBy(x: 0.70, y: 0.70)
+
+                
+                $0.transform = self.view.transform.scaledBy(x: self.tempFloat3, y: self.tempFloat3)
+                
+                
                 $0.layer.cornerRadius =  $0.bounds.size.width / 2
                 $0.clipsToBounds = true
             }
         }
        configureUI(.notPlaying)  //set the buttons when music is playing
-    }
-
-    func showStopButton(){
-        view.addSubview(stopButton)
-        stopButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        stopButton.topAnchor.constraint(equalTo: finalVerticalStack.bottomAnchor, constant: 30).isActive = true
-    }
-
-    func showBackButton(){
-        view.addSubview(backButton)
-        backButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        backButton.bottomAnchor.constraint(equalTo:  view.safeAreaLayoutGuide.bottomAnchor, constant: -40).isActive = true
     }
     
     func removeBackButton(){
@@ -190,20 +191,41 @@ class PlaySoundsController: UIViewController {
         stopButton.addTarget(self, action: #selector(handleStopButton), for: .touchDown)
         backButton.addTarget(self, action: #selector(handleBackButton), for: .touchDown)
         
+        guard let tempFloat:CGFloat = stopButton.imageView?.image?.size.height else {return}
+        tempFloat2 = tempFloat * tempFloat3
+        
         setupSoundButtonStack()
         
+        [horizontalRowTop, horizontalRowMiddle, horizontalRowBtm, backButton, titleLabel].forEach{view.addSubview($0)}
         
-        [horizontalRowTop, horizontalRowMiddle, horizontalRowBtm].forEach{view.addSubview($0)}
         NSLayoutConstraint.activate([
             horizontalRowTop.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             horizontalRowMiddle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             horizontalRowBtm.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            horizontalRowTop.bottomAnchor.constraint(equalTo: horizontalRowMiddle.topAnchor),
+            backButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            horizontalRowTop.bottomAnchor.constraint(equalTo: horizontalRowMiddle.bottomAnchor, constant: -tempFloat2),
             horizontalRowMiddle.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            horizontalRowBtm.topAnchor.constraint(equalTo: horizontalRowMiddle.bottomAnchor),
+            horizontalRowBtm.topAnchor.constraint(equalTo: horizontalRowMiddle.topAnchor, constant: tempFloat2),
+            backButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: horizontalRowTop.topAnchor),
             ])
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         setupAudio()  //loads up the recorded file from RecordSoundsController()
     }
+    
     
     private func setupNavigationBar(){
         navigationItem.title = "Pitch Perfect"
