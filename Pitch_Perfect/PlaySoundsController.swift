@@ -152,6 +152,7 @@ class PlaySoundsController: UIViewController {
         super.viewWillAppear(animated)
         DispatchQueue.main.async {
             [self.slowButton, self.echoButton, self.fastButton, self.reverbButton, self.chipmunkButton, self.darthvaderButton, self.stopButton].forEach{
+                $0.transform = self.view.transform.scaledBy(x: 0.5, y: 0.5)
                 $0.layer.cornerRadius =  $0.bounds.size.width / 2
                 $0.clipsToBounds = true
             }
@@ -201,7 +202,10 @@ class PlaySoundsController: UIViewController {
         
         NSLayoutConstraint.activate([
             finalVerticalStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            finalVerticalStack.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
+//            finalVerticalStack.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
+            finalVerticalStack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
+            
             
 //            stopButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 //            stopButton.topAnchor.constraint(equalTo: finalVerticalStack.bottomAnchor, constant: 30),
@@ -253,7 +257,7 @@ class PlaySoundsController: UIViewController {
     
     func setupSoundButtonStack(){
         [slowButton, fastButton].forEach{horizontalRowTop.addArrangedSubview($0)}
-        [chipmunkButton, darthvaderButton].forEach{horizontalRowMiddle.addArrangedSubview($0)}
+        [chipmunkButton, stopButton, darthvaderButton].forEach{horizontalRowMiddle.addArrangedSubview($0)}
         [echoButton, reverbButton].forEach{horizontalRowBtm.addArrangedSubview($0)}
         [horizontalRowTop, horizontalRowMiddle, horizontalRowBtm].forEach{finalVerticalStack.addArrangedSubview($0)}
     }
@@ -265,14 +269,14 @@ class PlaySoundsController: UIViewController {
         if traitCollection.verticalSizeClass == .compact {
             finalVerticalStack.axis = .horizontal
             [horizontalRowTop, horizontalRowMiddle, horizontalRowBtm].forEach{$0.axis = .vertical}
-            removeStopButton()
-            removeBackButton()
+//            removeStopButton()
+//            removeBackButton()
             print("vertical class = compact")
         } else if traitCollection.verticalSizeClass == .regular{
             finalVerticalStack.axis = .vertical
             [horizontalRowTop, horizontalRowMiddle, horizontalRowBtm].forEach{$0.axis = .horizontal}
-            showStopButton()
-            showBackButton()
+//            showStopButton()
+//            showBackButton()
             print("vertical class = regular")
         }
     }
