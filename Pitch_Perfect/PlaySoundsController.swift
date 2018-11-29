@@ -17,8 +17,7 @@ class PlaySoundsController: UIViewController {
     var audioPlayerNode: AVAudioPlayerNode!
     var stopTimer: Timer!
     
-    var tempFloat2: CGFloat = 0
-    var tempFloat3: CGFloat = 0.7
+    var ratioForButtonAssets: CGFloat = 0.7
 
     enum ButtonType: Int {
         case slow = 0, echo, fast, chipmunk, darthvader, reverb
@@ -158,24 +157,12 @@ class PlaySoundsController: UIViewController {
         super.viewWillAppear(animated)
         DispatchQueue.main.async {
             [self.slowButton, self.echoButton, self.fastButton, self.reverbButton, self.chipmunkButton, self.darthvaderButton, self.stopButton].forEach{
-
-                
-                $0.transform = self.view.transform.scaledBy(x: self.tempFloat3, y: self.tempFloat3)
-                
-                
+                $0.transform = self.view.transform.scaledBy(x: self.ratioForButtonAssets, y: self.ratioForButtonAssets)
                 $0.layer.cornerRadius =  $0.bounds.size.width / 2
                 $0.clipsToBounds = true
             }
         }
        configureUI(.notPlaying)  //set the buttons when music is playing
-    }
-    
-    func removeBackButton(){
-        backButton.removeFromSuperview()
-    }
-    
-    func removeStopButton(){
-        stopButton.removeFromSuperview()
     }
     
     
@@ -192,7 +179,7 @@ class PlaySoundsController: UIViewController {
         backButton.addTarget(self, action: #selector(handleBackButton), for: .touchDown)
         
         guard let tempFloat:CGFloat = stopButton.imageView?.image?.size.height else {return}
-        tempFloat2 = tempFloat * tempFloat3
+        let newConstantForNSLayour = tempFloat * ratioForButtonAssets
         
         setupSoundButtonStack()
         
@@ -205,24 +192,12 @@ class PlaySoundsController: UIViewController {
             backButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            horizontalRowTop.bottomAnchor.constraint(equalTo: horizontalRowMiddle.bottomAnchor, constant: -tempFloat2),
+            horizontalRowTop.bottomAnchor.constraint(equalTo: horizontalRowMiddle.bottomAnchor, constant: -newConstantForNSLayour),
             horizontalRowMiddle.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            horizontalRowBtm.topAnchor.constraint(equalTo: horizontalRowMiddle.topAnchor, constant: tempFloat2),
+            horizontalRowBtm.topAnchor.constraint(equalTo: horizontalRowMiddle.topAnchor, constant: newConstantForNSLayour),
             backButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: horizontalRowTop.topAnchor),
             ])
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         setupAudio()  //loads up the recorded file from RecordSoundsController()
     }
     
@@ -257,10 +232,8 @@ class PlaySoundsController: UIViewController {
 
     
     @objc func handleBackButton(_ sender: UIButton?){
-        print("RECORD NEW SOUND PRESSED")
         navigationController?.popViewController(animated: true)
     }
-    
     
     func setupSoundButtonStack(){
         [slowButton, fastButton].forEach{horizontalRowTop.addArrangedSubview($0)}
@@ -268,35 +241,5 @@ class PlaySoundsController: UIViewController {
         [echoButton, reverbButton].forEach{horizontalRowBtm.addArrangedSubview($0)}
         [horizontalRowTop, horizontalRowMiddle, horizontalRowBtm].forEach{finalVerticalStack.addArrangedSubview($0)}
     }
-
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-    }
 }
 
-
-/*
-     override func viewDidLayoutSubviews() {
-         slowButton.layer.cornerRadius = slowButton.bounds.size.width / 2
-         slowButton.clipsToBounds = true
-         echoButton.layer.cornerRadius = echoButton.bounds.size.width / 2
-         echoButton.clipsToBounds = true
-         fastButton.layer.cornerRadius = echoButton.bounds.size.width / 2
-         fastButton.clipsToBounds = true
-     }
- 
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if traitCollection.verticalSizeClass == .compact {
-            finalVerticalStack.axis = .horizontal
-            [horizontalRowTop, horizontalRowMiddle, horizontalRowBtm].forEach{$0.axis = .vertical}
-            print("vertical class = compact")
-        } else if traitCollection.verticalSizeClass == .regular{
-            finalVerticalStack.axis = .vertical
-            [horizontalRowTop, horizontalRowMiddle, horizontalRowBtm].forEach{$0.axis = .horizontal}
-            print("vertical class = regular")
-        }
-    }
-*/

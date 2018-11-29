@@ -13,7 +13,7 @@
 		8409516C216540AC00A8A7E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8409516B216540AC00A8A7E0 /* Assets.xcassets */; };
 		8409516F216540AC00A8A7E0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8409516D216540AC00A8A7E0 /* LaunchScreen.storyboard */; };
 		840951792165416C00A8A7E0 /* UIColor+theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840951782165416C00A8A7E0 /* UIColor+theme.swift */; };
-		8409517E21656E7000A8A7E0 /* Extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409517D21656E7000A8A7E0 /* Extras.swift */; };
+		8409517E21656E7000A8A7E0 /* imageNameEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409517D21656E7000A8A7E0 /* imageNameEnum.swift */; };
 		840951802168518500A8A7E0 /* PlaySoundsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409517F2168518500A8A7E0 /* PlaySoundsController.swift */; };
 		84C83D74218FB3050043CDBA /* RecordSoundsController+AVFoundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83D73218FB3050043CDBA /* RecordSoundsController+AVFoundation.swift */; };
 		84C83D7621925C8E0043CDBA /* PlaySoundsController+AVFoundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C83D7521925C8E0043CDBA /* PlaySoundsController+AVFoundation.swift */; };
@@ -28,7 +28,7 @@
 		8409516E216540AC00A8A7E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84095170216540AC00A8A7E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		840951782165416C00A8A7E0 /* UIColor+theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+theme.swift"; sourceTree = "<group>"; };
-		8409517D21656E7000A8A7E0 /* Extras.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extras.swift; sourceTree = "<group>"; };
+		8409517D21656E7000A8A7E0 /* imageNameEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = imageNameEnum.swift; sourceTree = "<group>"; };
 		8409517F2168518500A8A7E0 /* PlaySoundsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaySoundsController.swift; sourceTree = "<group>"; };
 		84C83D73218FB3050043CDBA /* RecordSoundsController+AVFoundation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecordSoundsController+AVFoundation.swift"; sourceTree = "<group>"; };
 		84C83D7521925C8E0043CDBA /* PlaySoundsController+AVFoundation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaySoundsController+AVFoundation.swift"; sourceTree = "<group>"; };
@@ -68,7 +68,7 @@
 				84C83D7521925C8E0043CDBA /* PlaySoundsController+AVFoundation.swift */,
 				84095166216540AA00A8A7E0 /* RecordSoundsController.swift */,
 				84C83D73218FB3050043CDBA /* RecordSoundsController+AVFoundation.swift */,
-				8409517D21656E7000A8A7E0 /* Extras.swift */,
+				8409517D21656E7000A8A7E0 /* imageNameEnum.swift */,
 				840951782165416C00A8A7E0 /* UIColor+theme.swift */,
 				8409517A2165694E00A8A7E0 /* Support Files */,
 				84095170216540AC00A8A7E0 /* Info.plist */,
@@ -161,7 +161,7 @@
 				840951792165416C00A8A7E0 /* UIColor+theme.swift in Sources */,
 				84C83D74218FB3050043CDBA /* RecordSoundsController+AVFoundation.swift in Sources */,
 				84C83D7621925C8E0043CDBA /* PlaySoundsController+AVFoundation.swift in Sources */,
-				8409517E21656E7000A8A7E0 /* Extras.swift in Sources */,
+				8409517E21656E7000A8A7E0 /* imageNameEnum.swift in Sources */,
 				84095167216540AA00A8A7E0 /* RecordSoundsController.swift in Sources */,
 				840951802168518500A8A7E0 /* PlaySoundsController.swift in Sources */,
 				84095165216540AA00A8A7E0 /* AppDelegate.swift in Sources */,
